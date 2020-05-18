@@ -1,5 +1,21 @@
 # 🎞 HKVideoRangeSlider
 
+<p align="left">
+    <a href="https://cocoapods.org/pods/HKVideoRangeSlider">
+        <img src="https://img.shields.io/cocoapods/v/HKVideoRangeSlider.svg?style=flat"
+             alt="Pods Version">
+    </a>
+    <a href="http://cocoapods.org/pods/HKVideoRangeSlider/">
+        <img src="https://img.shields.io/cocoapods/p/HKVideoRangeSlider.svg?style=flat"
+             alt="Platforms">
+    </a>
+    <a href="https://github.com/Carthage/Carthage">
+        <img src="https://img.shields.io/badge/Carthage-compatible-brightgreen.svg?style=flat"
+             alt="Carthage Compatible">
+    </a>
+</p>
+
+---
 iOS video range slider for trimming it, .
 
 ## Features
