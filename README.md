@@ -11,7 +11,7 @@ iOS video range slider for trimming it, .
 
 ## Requirements
 
-HKVideoRangeSlider is written in Swift 5. Compatible with iOS 12.4+
+HKVideoRangeSlider is written in Swift 5. Compatible with iOS 11.0+
 
 ## Installation
 
