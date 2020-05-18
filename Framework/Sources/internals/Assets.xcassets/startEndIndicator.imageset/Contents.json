@@ -1,0 +1,26 @@
+{
+  "images" : [
+    {
+      "filename" : "startEndIndicator.pdf",
+      "idiom" : "universal",
+      "resizing" : {
+        "cap-insets" : {
+          "bottom" : 33,
+          "top" : 33
+        },
+        "center" : {
+          "height" : 34,
+          "mode" : "tile"
+        },
+        "mode" : "3-part-vertical"
+      }
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  },
+  "properties" : {
+    "template-rendering-intent" : "template"
+  }
+}
