@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name         = "HKVideoRangeSlider"
-  spec.version      = "0.5.2"
+  spec.version      = "0.5.3"
   spec.summary      = "A range slider for trimming multiple videos. (swift 5)"
   spec.description  = <<-DESC
                    Full configurable video thumbnails view for trimming multiple videos.

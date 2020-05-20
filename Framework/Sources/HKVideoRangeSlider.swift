@@ -156,8 +156,6 @@ extension HKVideoRangeSlider {
         // start & end indicators
         startIndicator = StartEndIndicator(startOrEnd: .start, frame: .zero)
         endIndicator = StartEndIndicator(startOrEnd: .end, frame: .zero)
-        startIndicator.tintColor = tintColor
-        endIndicator.tintColor = tintColor
 
         let startDragging = UIPanGestureRecognizer(target:self,
                                                    action: #selector(draggedStartIndicator(recognizer:)))
@@ -188,6 +186,8 @@ extension HKVideoRangeSlider {
         addSubview(topBorder)
         addSubview(bottomBorder)
         addSubview(progressIndicator)
+
+        internalSetTintColor(tintColor)
     }
 
     private func internalSetTintColor(_ color: UIColor!) {

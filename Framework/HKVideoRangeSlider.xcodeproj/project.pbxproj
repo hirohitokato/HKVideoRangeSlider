@@ -38,6 +38,7 @@
 		363122922460DAD600836336 /* ProgressIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressIndicator.swift; sourceTree = "<group>"; };
 		369510332461429D00980F94 /* HKVideoRangeSliderDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HKVideoRangeSliderDelegate.swift; sourceTree = "<group>"; };
 		369510352462768900980F94 /* HKAssetInputData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HKAssetInputData.swift; sourceTree = "<group>"; };
+		36951FBE2475834600728C35 /* HKVideoRangeSlider.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; name = HKVideoRangeSlider.podspec; path = ../HKVideoRangeSlider.podspec; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +68,7 @@
 		3610D25F245B03DD008FFDE4 = {
 			isa = PBXGroup;
 			children = (
+				36951FBE2475834600728C35 /* HKVideoRangeSlider.podspec */,
 				360B8E652473460D00E7F9F1 /* README.md */,
 				360B8E392472D86300E7F9F1 /* Sources */,
 				3610D26A245B03DD008FFDE4 /* Products */,
@@ -341,7 +343,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.5.2;
+				MARKETING_VERSION = 0.5.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.katokichisoft.HKVideoRangeSlider;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -370,7 +372,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.5.2;
+				MARKETING_VERSION = 0.5.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.katokichisoft.HKVideoRangeSlider;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
