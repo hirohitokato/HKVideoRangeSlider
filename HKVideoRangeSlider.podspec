@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name         = "HKVideoRangeSlider"
-  spec.version      = "0.5.1"
+  spec.version      = "0.5.2"
   spec.summary      = "A range slider for trimming multiple videos. (swift 5)"
   spec.description  = <<-DESC
                    Full configurable video thumbnails view for trimming multiple videos.
@@ -21,7 +21,6 @@ Pod::Spec.new do |spec|
   spec.social_media_url   = "https://twitter.com/hkato193"
   spec.source       = { :git => "https://github.com/hirohitokato/HKVideoRangeSlider.git", :tag => "#{spec.version}" }
   spec.source_files  = "Framework/Sources/**/*.{h,swift}"
-  spec.pod_target_xcconfig = { 'SWIFT_WHOLE_MODULE_OPTIMIZATION' => 'YES', 'APPLICATION_EXTENSION_API_ONLY' => 'YES' }
   spec.frameworks = 'UIKIt'
   spec.resource  = "Framework/Sources/**/*.xcassets"
 

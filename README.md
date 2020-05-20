@@ -49,6 +49,21 @@ github "hirohitokato/HKVideoRangeSlider"
 
 ## Getting Started
 
+```swift
+// Prepare AVAsset objects to show.
+let url1 = URL(fileURLWithPath: Bundle.main.path(forResource: "SampleVideo1", ofType:"mp4")!)
+let url2 = URL(fileURLWithPath: Bundle.main.path(forResource: "SampleVideo2", ofType:"mp4")!)
+let url3 = URL(fileURLWithPath: Bundle.main.path(forResource: "SampleVideo3", ofType:"mp4")!)
+
+let assets = [
+    HKAssetInputData(asset: AVURLAsset(url: url1)),
+    HKAssetInputData(asset: AVURLAsset(url: url2)),
+    HKAssetInputData(asset: AVURLAsset(url: url3), startTime: 20, duration: 18) // you can set initial range.
+]
+// Set & display video range view
+videoRangeSlider.setAssetData(assets)
+```
+
 ## Usage
 
 ## Author

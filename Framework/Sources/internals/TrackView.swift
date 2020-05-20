@@ -86,7 +86,9 @@ class TrackView: UIScrollView {
         startTime = 0.0
         endTime = assetDuration
 
-        videoSize = videoTrack.naturalSize
+        // Consider video dimension
+        let s = videoTrack.naturalSize.applying(videoTrack.preferredTransform)
+        videoSize = CGSize(width: abs(s.width), height: abs(s.height))
 
         bounces = false
         showsVerticalScrollIndicator = false

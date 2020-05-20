@@ -76,8 +76,7 @@ class ViewController: UIViewController {
     }
 
     @IBAction func removeAssets(_ sender: Any) {
-        let assets = [HKAssetInputData]()
-        videoRangeSlider.setAssetData(assets)
+        videoRangeSlider.setAssetData([])
     }
 }
 
