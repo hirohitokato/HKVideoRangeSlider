@@ -9,7 +9,7 @@
 import UIKit
 import AVFoundation
 
-/// 各トラック(UIScrollView)内のコンテンツビューを取得するときのタグ
+/// The tag used so that the parent can get each track
 let kContentViewTag: Int = 100
 
 class TrackView: UIScrollView {
@@ -102,9 +102,23 @@ class TrackView: UIScrollView {
         }
 
         let aspectRatio = videoSize.width / videoSize.height
-        let thumbnailSize = CGSize(width: contentView.bounds.height * aspectRatio,
+
+        let estimatedThumbnailSize = CGSize(width: contentView.bounds.height * aspectRatio,
+                                            height: contentView.bounds.height)
+        let estimatedThumbnailCount = Int((contentView.bounds.width / estimatedThumbnailSize.width)            .rounded(.up))
+
+        // limit the maximum number of thumbnail images
+        // for displaying performance.
+        let thumbnailSize: CGSize
+        let thumbnailCount: Int
+        if estimatedThumbnailCount <= kMaxThumbnailCount {
+            thumbnailCount = Int((contentView.bounds.width / estimatedThumbnailSize.width).rounded(.up))
+            thumbnailSize = estimatedThumbnailSize
+        } else {
+            thumbnailCount = kMaxThumbnailCount
+            thumbnailSize = CGSize(width: contentView.bounds.width / CGFloat(thumbnailCount),
                                    height: contentView.bounds.height)
-        let thumbnailCount = Int((contentView.bounds.width / thumbnailSize.width).rounded(.up))
+        }
 
         let thumbnails = (0 ..< thumbnailCount).map { i -> ThumbnailView in
             return createThumbnailView(atIndex: i, size: thumbnailSize)
@@ -185,6 +199,7 @@ class TrackView: UIScrollView {
         let rect = CGRect(x: size.width * CGFloat(index) , y: 0,
                           width: size.width, height: size.height)
         let imageView = ThumbnailView(frame: rect)
+        imageView.contentMode = .scaleAspectFill
 
         let rate = rect.width / contentView.bounds.width * CGFloat(index)
         let imageTime = CMTime(seconds: assetDuration * Double(rate), preferredTimescale: 30)
