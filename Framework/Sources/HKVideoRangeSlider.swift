@@ -332,25 +332,27 @@ extension HKVideoRangeSlider {
         let assetDurations = videoRanges.map{ $0.asset.duration.seconds }
         let shortestAssetDuration = assetDurations.min()!
         let longestAssetDuration = assetDurations.max()!
+        let durationRatio = longestAssetDuration / shortestAssetDuration
 
         // Change the logic to get each track width, in order to improve UI.
         // Too long track is inconvenience.
-        let trackWidths: [CGFloat]
-        if shortestAssetDuration * 3 < longestAssetDuration {
-            // The size of longest track is the 2x size of frame,
-            // and the other track lengths are decided by the ratio of it.
-            let longestAssetWidth = 2 * frame.width
-
-            trackWidths = assetDurations
-                .map{ CGFloat($0 / longestAssetDuration) * longestAssetWidth }
-        } else {
-            // The width of shortest track is the 0.75x size of current bounds,
-            // and the other track lengths are decided by the ratio of it.
-            let shortestAssetWidth = 1.25 * bounds.width
-
-            trackWidths = assetDurations
-                .map{ CGFloat($0 / shortestAssetDuration) * shortestAssetWidth }
+        let baseDuration: Double
+        let baseWidth: CGFloat
+        switch durationRatio {
+        case -.infinity ..< 2:
+            // If thhe ratio between the longest and the shortest track is
+            // greater than 2, then it uses the longest as a base of width.
+            // And the other track lengths are decided by the ratio of it.
+            baseDuration = longestAssetDuration
+            baseWidth = 1.5 * bounds.width
+        default:
+            // The ratio between the longest and the shortest track is
+            // less than 2, then it uses the shortest as a base of width.
+            // And the other track lengths are decided by the ratio of it.
+            baseDuration = shortestAssetDuration
+            baseWidth = 1.0 * bounds.width
         }
+        let trackWidths = assetDurations.map{ CGFloat($0 / baseDuration) * baseWidth }
 
         let contentViewWidth = 4 * trackWidths.max()!
 
@@ -640,7 +642,7 @@ extension HKVideoRangeSlider: ProgressIndicatorDelegate {
         recognizer.setTranslation(.zero, in: self)
 
         // draggable between start and end indicators
-        progressIndicator.set(position: newCenter.x, animated: false)
+        progressIndicator.set(position: newCenter.x, animated: false, needsNotify: true)
     }
 
     private func updateProgressIndicator(onlyMovePosition: Bool = false) {
@@ -661,12 +663,12 @@ extension HKVideoRangeSlider: ProgressIndicatorDelegate {
             progressIndicator.center.x = xInView
         } else {
             // update the value
-            progressIndicator.set(position: xInView, animated: false)
+            progressIndicator.set(position: xInView, animated: false, needsNotify: true)
         }
     }
 
     private func internalSetProgress(rate: Double, animated: Bool) {
-        progressIndicator.set(rate: rate, animated: animated)
+        progressIndicator.set(rate: rate, animated: animated, needsNotify: false)
     }
 
     func didChangeIndicatorPosition(_ position: Double) {

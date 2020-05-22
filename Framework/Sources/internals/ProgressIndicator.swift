@@ -27,16 +27,12 @@ class ProgressIndicator: UIView {
     /// A progress indicator's current rate.
     var rate: Double {
         get { privateRate }
-        set { set(rate: newValue, animated: false) }
     }
     private var privateRate: Double = 0.0
 
     var position: CGFloat {
         get {
             (endIndicator.center.x - startIndicator.center.x) * CGFloat(privateRate) + startIndicator.center.x
-        }
-        set {
-            set(position: newValue, animated: false)
         }
     }
     private var previousNotifiedRate: Double = -1.0
@@ -90,25 +86,25 @@ class ProgressIndicator: UIView {
     }
 
     // MARK: - APIs
-    func set(position: CGFloat, animated: Bool) {
+    func set(position: CGFloat, animated: Bool, needsNotify: Bool) {
         let x = position.clipped(startIndicator.center.x, endIndicator.center.x)
         privateRate = Double((x - startIndicator.center.x) / (endIndicator.center.x - startIndicator.center.x))
 
-        setCenter(CGPoint(x: x, y: 0), animated: animated)
+        setCenter(CGPoint(x: x, y: 0), animated: animated, needsNotify: needsNotify)
     }
 
-    func set(rate: Double, animated: Bool) {
+    func set(rate: Double, animated: Bool, needsNotify: Bool) {
         privateRate = rate.clipped(0, 1)
 
-        setCenter(CGPoint(x: position, y: 0), animated: animated)
+        setCenter(CGPoint(x: position, y: 0), animated: animated, needsNotify: needsNotify)
     }
 
     func updateCurrentPosition() {
-        set(position: center.x, animated: false)
+        set(position: center.x, animated: false, needsNotify: true)
     }
 
     // MARK: private methods
-    private func setCenter(_ newCenter: CGPoint, animated: Bool) {
+    private func setCenter(_ newCenter: CGPoint, animated: Bool, needsNotify: Bool) {
         let action = { self.center = newCenter }
 
         if animated {
@@ -117,7 +113,7 @@ class ProgressIndicator: UIView {
             action()
         }
 
-        if !rate.isEqual(to: previousNotifiedRate, places: 4) {
+        if needsNotify && !rate.isEqual(to: previousNotifiedRate, places: 4) {
             // Notify the current indicator position to delegate object.
             delegate?.didChangeIndicatorPosition(rate)
         }
