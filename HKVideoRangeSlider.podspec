@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name         = "HKVideoRangeSlider"
-  spec.version      = "0.6.0"
+  spec.version      = "0.7.0"
   spec.summary      = "A range slider for trimming multiple videos. (swift 5)"
   spec.description  = <<-DESC
                    Full configurable video thumbnails view for trimming multiple videos.
@@ -14,7 +14,7 @@ Pod::Spec.new do |spec|
                    DESC
   spec.homepage     = "https://github.com/hirohitokato/HKVideoRangeSlider"
   # spec.screenshots  = "www.example.com/screenshots_1.gif", "www.example.com/screenshots_2.gif"
-  spec.platform     = :ios, "12.4"
+  spec.platform     = :ios, "11.0"
   spec.swift_version = "5.0"
   spec.license      = { :type => "MIT", :file => "LICENSE" }
   spec.author    = "Kato Hirohito"
