@@ -20,16 +20,20 @@ public class HKVideoRangeSlider: UIView {
 
     // MARK: 📍 Public properties
 
-    /// An array of video assets to handle with.
+    /// An array of current video asset and range information, set by the start-end slider.
     private (set) public var videoRanges = [HKVideoRange]()
 
-    /// Current values that the progress indicator points in each track.
+    /// An array of current progress information, pointed by the progress indicator.
     private (set) public var currentProgresses = [HKVideoPosition]()
 
-    /// A minimun space (in seconds) between the Start indicator and End indicator
-    public var maxDuration: Double = 999.0
+    /// A minimun space (in seconds) between the Start indicator and End indicator.
+    ///
+    /// The default is 3600 (= 1 hour).
+    public var maxDuration: Double = 3600.0
 
     /// A minimun space (in seconds) between the Start indicator and End indicator
+    ///
+    /// The default is 2 (seconds).
     public var minDuration: Double = 2
 
     /// Current main slider value.
@@ -42,15 +46,59 @@ public class HKVideoRangeSlider: UIView {
 
     /// The first nondefault tint color value in the view’s hierarchy,
     /// ascending from and starting with the view itself.
+    ///
+    /// If you set it, the color of all controls(start-end slider, main slider,
+    /// except progress indicator) will be overwritten.
     public override var tintColor: UIColor! {
         didSet { internalSetTintColor(tintColor) }
     }
 
-    // TODO: startEndSliderのtintColor
+    /// The color of _dimples_ in start-end slider. The default value is white.
+    ///
+    /// If you set an image to `startEndSliderImage` property, this value is
+    /// used as a background color. Therefore, you may consider to set .clear to this
+    /// if the image has a transparent part.
+    public var startEndSliderDimpleColor: UIColor? {
+        get { startIndicator.dimpleColor }
+        set {
+            startIndicator.dimpleColor = newValue
+            endIndicator.dimpleColor = newValue
+        }
+    }
+
+    /// The tint color of start-end slider.
+    ///
+    /// If you set `tintColor` property, this value will be overwritten.
+    public var startEndSliderTintColor: UIColor! {
+        get { startIndicator.tintColor }
+        set {
+            startIndicator.tintColor = newValue
+            endIndicator.tintColor = newValue
+        }
+    }
+
     // TODO: startEndSliderのイメージ
     // TODO: mainSliderのThumbイメージ
-    // TODO: mainSliderのtintColor
-    // TODO: progressIndicatorのtintColor
+
+    /// The tint color of main slider.
+    ///
+    /// The main slider is the knob at the bottom of the view.
+    /// If you set `tintColor` property, this value will be overwritten.
+    public var mainSliderTintColor: UIColor! {
+        get { mainSlider.tintColor }
+        set {
+            mainSlider.tintColor = newValue
+        }
+    }
+
+    /// The tint color of progress indicator. The default is white.
+    public var progressIndicatorTintColor: UIColor! {
+        get { progressIndicator.tintColor }
+        set {
+            progressIndicator.tintColor = newValue
+        }
+    }
+
     // TODO: progressIndicatorのイメージ
 
     /// The range slider's delegate.
