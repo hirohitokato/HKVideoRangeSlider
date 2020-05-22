@@ -80,8 +80,9 @@ videoRangeSlider.setAssetData(assets)
 
 #### via storyboard (or xib)
 
-1. put `UIView` to view
-2. Change the class from `UIView` to `HKVideoRangeSlider`
+1. put `UIView` to view.
+2. Change the class from `UIView` to `HKVideoRangeSlider`.
+3. Customize its appearance.
 
 #### via code
 
@@ -89,34 +90,20 @@ videoRangeSlider.setAssetData(assets)
 
 ```
 
-### Display tracks
+### Show tracks & other controls
 
-To display video tracks, set track information. Use `HKAssetInputData` as the information.
-
-```swift
-
-```
+To display video tracks, just set the track information via `setAssetData(_:)` method with an array of  `HKAssetInputData`.
 
 ```swift
-public struct HKAssetInputData {
+let assets = [
+    HKAssetInputData(asset: AVURLAsset(url: videoUrl1)),
+    HKAssetInputData(asset: AVURLAsset(url: videoUrl2)),
+    // you can set initial range settings.
+    HKAssetInputData(asset: AVURLAsset(url: videoUrl3), startTime: 20, duration: 18)
+]
 
-    /// The asset object for this value.
-    public let asset: AVAsset
-
-    /// The initial start time for the asset. if the value is nil,
-    /// `HKVideoRangeSlider` object uses 0.0 as the start time.
-    public let start: Double?
-
-    /// The duration of the range from the start time. if the value is nil,
-    /// `HKVideoRangeSlider` object uses the asset duration as the duration.
-    public let duration: Double?
-
-    /// Makes a `HKAssetData` from an asset, `Double` number of start time, and a duration.
-    ///
-    /// The units of `Double` values are in seconds.
-    /// `startTime` and `duration` parameters are optional.
-    public init(asset: AVAsset, startTime: Double? = nil, duration: Double? = nil)
-}
+// Display video range view
+videoRangeSlider.setAssetData(assets)
 ```
 
 To remove assets, just set empty assets to range slider. The slider clears all contents and hide all UI.
@@ -134,19 +121,32 @@ To receive events, set delegate object to `delegate` property. The object must a
 videoRangeSlider.delegate = self
 ```
 
-The delegate is not retained.
-
-#### Changed range status
+#### Changed the range status
 
 ```swift
 func didChangeRangeData(rangeSlider: HKVideoRangeSlider, ranges: [HKVideoRange])
 ```
 
-### Changed indicator position
+Tells the delegate when the user scrolls one of the tracks, or drags the start or end slider. This is optional.
+
+* Parameters:
+    * `rangeSlider`: The slider object in which the event occurred.
+    * `ranges`: The array of current range status of all tracks.
+
+The delegate typically implements this method to obtain the change in range data.
+
+### Changed the indicator position
 
 ```swift
 func didChangeIndicatorPosition(rangeSlider: HKVideoRangeSlider, positions: [HKVideoPosition], rate: Double)
 ```
+
+Tells the delegate when the user drags the progress indicator. This is optional.
+
+* Parameters:
+    * `rangeSlider`: The slider object in which the event occurred.
+    * `positions`: The array of current positions of all tracks, indicated by the progress indicator.
+    * `rate`: 0.0-1.0 value as the position of the progress indicator.
 
 ### Customize
 

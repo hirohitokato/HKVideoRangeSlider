@@ -118,6 +118,8 @@ class TrackView: UIScrollView {
         default:
             thumbnailCount = estimatedThumbnailCount
         }
+
+        // Calculate a thumbnail size based on the count.
         let thumbnailSize = CGSize(width: contentView.bounds.width / CGFloat(thumbnailCount),
                                    height: contentView.bounds.height)
 

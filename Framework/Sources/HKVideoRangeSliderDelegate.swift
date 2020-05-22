@@ -47,8 +47,22 @@ public struct HKVideoPosition {
 /// and current indicator moving.
 public protocol HKVideoRangeSliderDelegate: class {
 
+    /// Tells the delegate when the user scrolls one of the tracks, or drags
+    /// the start or end slider. This is optional.
+    ///
+    /// The delegate typically implements this method to obtain the change in range data.
+    ///
+    /// - Parameters:
+    ///   - rangeSlider: The slider object in which the event occurred.
+    ///   - ranges: The array of current range status of all tracks.
     func didChangeRangeData(rangeSlider: HKVideoRangeSlider, ranges: [HKVideoRange])
 
+    /// Tells the delegate when the user drags the progress indicator. This is optional.
+    ///
+    /// - Parameters:
+    ///   - rangeSlider: The slider object in which the event occurred.
+    ///   - positions: The array of current positions of all tracks, indicated by the progress indicator.
+    ///   - rate: 0.0-1.0 value as the position of the progress indicator.
     func didChangeIndicatorPosition(rangeSlider: HKVideoRangeSlider, positions: [HKVideoPosition], rate: Double)
 }
 
