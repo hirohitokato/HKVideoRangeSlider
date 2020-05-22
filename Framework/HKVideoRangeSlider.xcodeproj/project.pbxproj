@@ -95,8 +95,8 @@
 			isa = PBXGroup;
 			children = (
 				3610D2A9245C67E0008FFDE4 /* TrackView.swift */,
-				3610D2AB245E330A008FFDE4 /* MainSlider.swift */,
 				3610D2AD245E451F008FFDE4 /* TrackViewsExtensions.swift */,
+				3610D2AB245E330A008FFDE4 /* MainSlider.swift */,
 				3610D2AF245E4E76008FFDE4 /* StartEndIndicator.swift */,
 				363122902460385000836336 /* StartEndBorder.swift */,
 				363122922460DAD600836336 /* ProgressIndicator.swift */,
@@ -343,7 +343,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.6.0;
+				MARKETING_VERSION = 0.7.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.katokichisoft.HKVideoRangeSlider;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -372,7 +372,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.6.0;
+				MARKETING_VERSION = 0.7.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.katokichisoft.HKVideoRangeSlider;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
