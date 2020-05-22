@@ -14,7 +14,8 @@ let kTrackViweScrollMargin: CGFloat = 75
 let kRangeIndicatorWidth: CGFloat = 20
 let kRangeIndicatorBorderHeight: CGFloat = 4
 let kProgressIndicatorWidth: CGFloat = 4
-let kMaxThumbnailCount = 30
+let kMaxThumbnailCount = 20
+let kMinThumbnailCount = 10
 
 public class HKVideoRangeSlider: UIView {
 

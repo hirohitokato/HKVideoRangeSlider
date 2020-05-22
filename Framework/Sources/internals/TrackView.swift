@@ -105,20 +105,21 @@ class TrackView: UIScrollView {
 
         let estimatedThumbnailSize = CGSize(width: contentView.bounds.height * aspectRatio,
                                             height: contentView.bounds.height)
-        let estimatedThumbnailCount = Int((contentView.bounds.width / estimatedThumbnailSize.width)            .rounded(.up))
+        let estimatedThumbnailCount = Int((contentView.bounds.width / estimatedThumbnailSize.width).rounded(.up))
 
         // limit the maximum number of thumbnail images
         // for displaying performance.
-        let thumbnailSize: CGSize
         let thumbnailCount: Int
-        if estimatedThumbnailCount <= kMaxThumbnailCount {
-            thumbnailCount = Int((contentView.bounds.width / estimatedThumbnailSize.width).rounded(.up))
-            thumbnailSize = estimatedThumbnailSize
-        } else {
+        switch estimatedThumbnailCount {
+        case Int.min ..< kMinThumbnailCount:
+            thumbnailCount = kMinThumbnailCount
+        case kMaxThumbnailCount ... Int.max:
             thumbnailCount = kMaxThumbnailCount
-            thumbnailSize = CGSize(width: contentView.bounds.width / CGFloat(thumbnailCount),
-                                   height: contentView.bounds.height)
+        default:
+            thumbnailCount = estimatedThumbnailCount
         }
+        let thumbnailSize = CGSize(width: contentView.bounds.width / CGFloat(thumbnailCount),
+                                   height: contentView.bounds.height)
 
         let thumbnails = (0 ..< thumbnailCount).map { i -> ThumbnailView in
             return createThumbnailView(atIndex: i, size: thumbnailSize)
@@ -200,6 +201,7 @@ class TrackView: UIScrollView {
                           width: size.width, height: size.height)
         let imageView = ThumbnailView(frame: rect)
         imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
 
         let rate = rect.width / contentView.bounds.width * CGFloat(index)
         let imageTime = CMTime(seconds: assetDuration * Double(rate), preferredTimescale: 30)
