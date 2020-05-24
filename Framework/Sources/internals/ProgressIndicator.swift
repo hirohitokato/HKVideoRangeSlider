@@ -74,11 +74,18 @@ class ProgressIndicator: UIView {
     }
 
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-        let frame = CGRect(x: -15,//-self.frame.size.width / 2,
+        let startPoint = convert(point, to: startIndicator)
+        let endPoint = convert(point, to: endIndicator)
+
+        let frame = CGRect(x: min(-15, -self.frame.size.width / 2),
                            y: 0,
-                           width: 30,//self.frame.size.width * 2,
+                           width: max(30, self.frame.size.width * 2),
                            height: self.frame.size.height)
-        if frame.contains(point){
+
+        // prefer start / end indicators
+        if frame.contains(point)
+            && startIndicator.hitTest(startPoint, with: event) == nil
+            && endIndicator.hitTest(endPoint, with: event) == nil {
             return self
         }else{
             return nil

@@ -90,7 +90,7 @@ extension BinaryFloatingPoint {
     var s: String { String(format: "%.1f", Double(self)) }
 }
 extension CGPoint {
-    var s: String { String(format: "(%.2f, %.2f)", x, y) }
+    var s: String { String(format: "(%.0f, %.0f)", x, y) }
 }
 extension CGRect {
     var s: String { String(format: "(%.0f,%.0f,%.0f,%.0f)", origin.x,origin.y,width,height)}
