@@ -113,7 +113,9 @@ class ProgressIndicator: UIView {
             action()
         }
 
-        if needsNotify && !rate.isEqual(to: previousNotifiedRate, places: 4) {
+        // Notify the event even if the position is changed
+        // by dragging start / end indicator. Therefore, below code is commented out.
+        if needsNotify /* && !rate.isEqual(to: previousNotifiedRate, places: 4) */ {
             // Notify the current indicator position to delegate object.
             delegate?.didChangeIndicatorPosition(rate)
         }

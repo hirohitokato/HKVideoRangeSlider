@@ -560,6 +560,9 @@ extension HKVideoRangeSlider: UIScrollViewDelegate {
         // Update properties and notify current data to delegate object
         videoRanges = trackViews.createVideoRanges()
         delegate?.didChangeRangeData(rangeSlider: self, ranges: videoRanges)
+
+        // Progress status for each track will also be changed by this event.
+        didChangeIndicatorPosition(progressIndicator.rate)
     }
 }
 
@@ -644,7 +647,7 @@ extension HKVideoRangeSlider {
         if onlyMovePosition {
             // do nothing.
         } else {
-            // Notify current data to delegate object
+            // Update properties and notify current data to delegate object
             videoRanges = trackViews.createVideoRanges()
             delegate?.didChangeRangeData(rangeSlider: self, ranges: trackViews.createVideoRanges())
         }
