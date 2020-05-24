@@ -14,7 +14,7 @@ import Photos
 public struct HKVideoRange {
     /// An ordered number of this data. The origin is 0.
     ///
-    /// The index of topmost track in the view is 0. The next track is 1. ...
+    /// The topmost track in the view is 0. The next track is 1, 2, …
     /// The order number is the same with that of `HKVideoRangeInput` array.
     public let trackID: Int
 
@@ -29,15 +29,16 @@ public struct HKVideoRange {
 }
 
 public struct HKVideoPosition {
-    /// A unique identifier for this data.
+    /// An ordered number of this data. The origin is 0.
     ///
-    /// The index of topmost track in the view is 0. The next track is 1. ...
+    /// The topmost track in the view is 0. The next track is 1, 2, …
+    /// The order number is the same with that of `HKVideoRangeInput` array.
     public let trackID: Int
 
     /// The asset for this data.
     public let asset: AVAsset
 
-    /// The time for the asset, currently indicated by progress indicator object.
+    /// The time for the asset, currently indicated by the progress indicator object.
     public let time: Double
 }
 

@@ -557,7 +557,7 @@ extension HKVideoRangeSlider: UIScrollViewDelegate {
 
         mainSlider.value = actualMainSliderValue
 
-        // Notify current data to delegate object
+        // Update properties and notify current data to delegate object
         videoRanges = trackViews.createVideoRanges()
         delegate?.didChangeRangeData(rangeSlider: self, ranges: videoRanges)
     }

@@ -239,10 +239,10 @@ Furthermore, you can show / hide borders laid between start / end slider by usin
 videoRangeSlider.isStartEndBorderHidden = true
 ```
 
-## Author
+## 🖋 Author
 
 Kato Hirohito, twitter account is [hkato193](https://twitter.com/hkato193).
 
-## License
+## 📜 License
 
 HKVideoRangeSlider is available under the MIT license. See the LICENSE file for more info.
