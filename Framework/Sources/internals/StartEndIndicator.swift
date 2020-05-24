@@ -36,6 +36,11 @@ class StartEndIndicator: UIView {
         set { backgroundColor = newValue }
     }
 
+    var image: UIImage? {
+        get { imageView.image }
+        set { setImage(image: newValue) }
+    }
+
     private var imageView = UIImageView()
 
     // MARK: - Initializer & setup methods
@@ -66,12 +71,19 @@ class StartEndIndicator: UIView {
 
         addSubview(imageView)
 
-        let bundle = Bundle(for: StartEndIndicator.self)
-        setImage(image: UIImage(named: "startEndIndicator", in: bundle, compatibleWith: nil))
+        setImage(image: nil)
     }
 
     // MARK: - APIs
-    func setImage(image: UIImage?) {
+    private func setImage(image: UIImage?) {
+        guard let image = image else {
+            // if nil is set, use default image.
+            let bundle = Bundle(for: StartEndIndicator.self)
+            setImage(image: UIImage(named: "startEndIndicator",
+                                    in: bundle, compatibleWith: nil)!)
+            return
+        }
+
         imageView.image = image
         imageView.frame = bounds
 

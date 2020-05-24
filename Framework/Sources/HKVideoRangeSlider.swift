@@ -78,7 +78,25 @@ public class HKVideoRangeSlider: UIView {
         }
     }
 
-    // TODO: startEndSliderのイメージ
+    /// The image displayed as the start / end slider control.
+    ///
+    /// If that property is set to nil, the slider applies a default image.
+    public var startEndSliderImage: UIImage? {
+        get { startIndicator.image }
+        set {
+            startIndicator.image = newValue
+            endIndicator.image = newValue
+        }
+    }
+
+    /// A Boolean value that determines whether the border
+    /// between start / end sliders are hidden.
+    public var isStartEndBorderHidden: Bool = false {
+        didSet {
+            updateVisibility()
+        }
+    }
+
     // TODO: mainSliderのThumbイメージ
 
     /// The tint color of main slider.
@@ -139,7 +157,7 @@ public class HKVideoRangeSlider: UIView {
         self.setup()
     }
 
-    override init(frame: CGRect) {
+    override public init(frame: CGRect) {
         super.init(frame: frame)
         self.setup()
     }
@@ -286,12 +304,27 @@ extension HKVideoRangeSlider {
             // relocate indicators
             updateStartEndIndicators()
             updateProgressIndicator()
+        }
 
+        updateVisibility()
+
+        // reposition whole track so that user can see the start indicator.
+        if !trackViews.isEmpty {
+            let left = trackViews.leftMostPosition(in: self)
+            let right = trackViews.rightMostPosition(in: self)
+            guard right - left > 0 else { return }
+
+            mainSliderValue = Float((startIndicator.position - left) / (right - left))
+        }
+    }
+
+    private func updateVisibility() {
+        if !videoRanges.isEmpty {
             mainSlider.isHidden = false
             startIndicator.isHidden = false
             endIndicator.isHidden = false
-            topBorder.isHidden = false
-            bottomBorder.isHidden = false
+            topBorder.isHidden = false || isStartEndBorderHidden
+            bottomBorder.isHidden = false || isStartEndBorderHidden
             progressIndicator.isHidden = false
 
             // arrange order of controls.
@@ -307,15 +340,6 @@ extension HKVideoRangeSlider {
             topBorder.isHidden = true
             bottomBorder.isHidden = true
             progressIndicator.isHidden = true
-        }
-
-        // reposition whole track so that user can see the start indicator.
-        if !trackViews.isEmpty {
-            let left = trackViews.leftMostPosition(in: self)
-            let right = trackViews.rightMostPosition(in: self)
-            guard right - left > 0 else { return }
-
-            mainSliderValue = Float((startIndicator.position - left) / (right - left))
         }
     }
 
@@ -585,9 +609,6 @@ extension HKVideoRangeSlider {
         topBorder.redraw()
         bottomBorder.redraw()
 
-        // update progress indicator position.
-        progressIndicator.updateCurrentPosition()
-
         let tuples = zip(trackViews, times)
         tuples.forEach { (trackView, t) in
             switch indicator.role {
@@ -601,6 +622,9 @@ extension HKVideoRangeSlider {
         // Notify current data to delegate object
         videoRanges = trackViews.createVideoRanges()
         delegate?.didChangeRangeData(rangeSlider: self, ranges: trackViews.createVideoRanges())
+
+        // update progress indicator position, after notifying current range.
+        progressIndicator.updateCurrentPosition()
     }
 
     private func updateStartEndIndicators(onlyMovePosition: Bool = false) {
