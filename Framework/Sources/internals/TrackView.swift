@@ -114,7 +114,12 @@ class TrackView: UIScrollView {
         case Int.min ..< kMinThumbnailCount:
             thumbnailCount = kMinThumbnailCount
         case kMaxThumbnailCount ... Int.max:
-            thumbnailCount = kMaxThumbnailCount
+            let a = (contentView.bounds.width / CGFloat(kMaxThumbnailCount)) / contentView.bounds.height
+            if a > 2 {
+                thumbnailCount = Int((contentView.bounds.width / contentView.bounds.height).rounded(.up))
+            } else {
+                thumbnailCount = kMaxThumbnailCount
+            }
         default:
             thumbnailCount = estimatedThumbnailCount
         }
