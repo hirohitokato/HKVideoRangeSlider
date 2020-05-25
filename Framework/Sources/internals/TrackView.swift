@@ -136,6 +136,16 @@ class TrackView: UIScrollView {
             contentView.addSubview(thumbnail)
         }
 
+        // IMPORTANT:
+        // AVAssetImageGenerator consumes huge memory(over GB!)
+        // when UIImage keeps the obtained CGImage object directly.
+        // To avoid the problem, create UIImage object by not the obtained
+        // object but **the copy of it**.
+        let scale = UIScreen.main.scale * 2
+        let maxSize = CGSize(width: thumbnailSize.width * scale,
+                             height: thumbnailSize.height * scale)
+        imageGenerator.maximumSize = maxSize
+
         let times = thumbnails.map { NSValue(time: $0.time) }
         imageGenerator.generateCGImagesAsynchronously(forTimes: times)
         { (time, cgImage, actualTime, result, error) in
@@ -143,7 +153,7 @@ class TrackView: UIScrollView {
                 guard result == .succeeded, let image = cgImage else { return }
                 guard let imageView = thumbnails.first(where: { $0.time == time}) else { return }
 
-                imageView.image = UIImage(cgImage: image)
+                imageView.image = UIImage(cgImage: image.copy()!)
             }
         }
     }
