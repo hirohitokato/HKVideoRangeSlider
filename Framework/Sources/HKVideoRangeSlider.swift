@@ -21,11 +21,16 @@ public class HKVideoRangeSlider: UIView {
 
     // MARK: 📍 Public properties
 
-    /// An array of current video asset and range information, set by the start-end slider.
-    private (set) public var videoRanges = [HKVideoRange]()
+    /// An array of current video asset and range information, updated by the start-end slider.
+    public var videoRanges: [HKVideoRange] {
+        trackViews.createVideoRanges()
+    }
 
     /// An array of current progress information, pointed by the progress indicator.
-    private (set) public var currentProgresses = [HKVideoPosition]()
+    public var currentProgresses: [HKVideoPosition] {
+        trackViews.createVideoPositions(atX: progressIndicator.position,
+                                        inParentView: self)
+    }
 
     /// A minimun space (in seconds) between the Start indicator and End indicator.
     ///
@@ -118,7 +123,7 @@ public class HKVideoRangeSlider: UIView {
         }
     }
 
-    // TODO: progressIndicatorのイメージ
+    // TODO: Create property for progressIndicator image
 
     /// The range slider's delegate.
     ///
@@ -129,6 +134,9 @@ public class HKVideoRangeSlider: UIView {
     public weak var delegate: HKVideoRangeSliderDelegate?
 
     // MARK: Private properties
+
+    /// Current range status
+    private var prvVideoRanges = [HKVideoRange]()
 
     /// An slider control to scroll whole tracks and range UI.
     private var mainSlider: MainSlider!
@@ -178,7 +186,7 @@ extension HKVideoRangeSlider {
     /// - Attention: If you specify the different duration in each element,
     ///              the shortest value is used.
     public func setAssetData(_ inputData: [HKAssetInputData]) {
-        videoRanges = inputData.enumerated().map {
+        prvVideoRanges = inputData.enumerated().map {
             $1.convertToVideoRange(asTrackID: $0)
         }
         internalUpdateThumbnails()
@@ -300,7 +308,7 @@ extension HKVideoRangeSlider {
         // rebuild track views.
         rebuildTrackViews()
 
-        if !videoRanges.isEmpty {
+        if !prvVideoRanges.isEmpty {
             // relocate indicators
             updateStartEndIndicators()
             updateProgressIndicator()
@@ -319,7 +327,7 @@ extension HKVideoRangeSlider {
     }
 
     private func updateVisibility() {
-        if !videoRanges.isEmpty {
+        if !prvVideoRanges.isEmpty {
             mainSlider.isHidden = false
             startIndicator.isHidden = false
             endIndicator.isHidden = false
@@ -348,12 +356,12 @@ extension HKVideoRangeSlider {
         trackViews.forEach{ $0.removeFromSuperview() }
         trackViews.removeAll()
 
-        guard !videoRanges.isEmpty else { return }
+        guard !prvVideoRanges.isEmpty else { return }
 
-        let trackCount = videoRanges.count
+        let trackCount = prvVideoRanges.count
         let trackHeight = (frame.height - kMainSliderAreaHeight - kRangeIndicatorBorderHeight) / CGFloat(trackCount)
 
-        let assetDurations = videoRanges.map{ $0.asset.duration.seconds }
+        let assetDurations = prvVideoRanges.map{ $0.asset.duration.seconds }
         let shortestAssetDuration = assetDurations.min()!
         let longestAssetDuration = assetDurations.max()!
         let durationRatio = longestAssetDuration / shortestAssetDuration
@@ -380,12 +388,12 @@ extension HKVideoRangeSlider {
 
         let contentViewWidth = 4 * trackWidths.max()!
 
-        let userSpecifiedDuration = videoRanges.compactMap { $0.duration }.min() ?? Double.infinity
+        let userSpecifiedDuration = prvVideoRanges.compactMap { $0.duration }.min() ?? Double.infinity
         let shortestDuration = min(userSpecifiedDuration, shortestAssetDuration)
 
         for i in 0..<trackCount {
 
-            let trackView = TrackView(trackID: i, asset: videoRanges[i].asset)
+            let trackView = TrackView(trackID: i, asset: prvVideoRanges[i].asset)
             let trackFrame = CGRect(x: 0, y: (trackHeight * CGFloat(i)) + kRangeIndicatorBorderHeight,
                                     width: frame.width, height: trackHeight - 1)
             trackView.frame = trackFrame
@@ -398,8 +406,8 @@ extension HKVideoRangeSlider {
             trackView.contentSize = CGSize(width: contentViewWidth,
                                            height: trackHeight - 1)
 
-            trackView.startTime = videoRanges[i].start
-            trackView.endTime = videoRanges[i].start + shortestDuration
+            trackView.startTime = prvVideoRanges[i].start
+            trackView.endTime = prvVideoRanges[i].start + shortestDuration
 
             trackView.buildThumbnails()
             trackViews.append(trackView)
@@ -558,8 +566,8 @@ extension HKVideoRangeSlider: UIScrollViewDelegate {
         mainSlider.value = actualMainSliderValue
 
         // Update properties and notify current data to delegate object
-        videoRanges = trackViews.createVideoRanges()
-        delegate?.didChangeRangeData(rangeSlider: self, ranges: videoRanges)
+        prvVideoRanges = trackViews.createVideoRanges()
+        delegate?.didChangeRangeData(rangeSlider: self, ranges: prvVideoRanges)
 
         // Progress status for each track will also be changed by this event.
         didChangeIndicatorPosition(progressIndicator.rate)
@@ -623,7 +631,7 @@ extension HKVideoRangeSlider {
         }
 
         // Notify current data to delegate object
-        videoRanges = trackViews.createVideoRanges()
+        prvVideoRanges = trackViews.createVideoRanges()
         delegate?.didChangeRangeData(rangeSlider: self, ranges: trackViews.createVideoRanges())
 
         // update progress indicator position, after notifying current range.
@@ -648,7 +656,7 @@ extension HKVideoRangeSlider {
             // do nothing.
         } else {
             // Update properties and notify current data to delegate object
-            videoRanges = trackViews.createVideoRanges()
+            prvVideoRanges = trackViews.createVideoRanges()
             delegate?.didChangeRangeData(rangeSlider: self, ranges: trackViews.createVideoRanges())
         }
     }
@@ -699,11 +707,8 @@ extension HKVideoRangeSlider: ProgressIndicatorDelegate {
     }
 
     func didChangeIndicatorPosition(_ position: Double) {
-        let videoPositions = trackViews.createVideoPositions(atX: progressIndicator.position,
-                                                             inParentView: self)
-        currentProgresses = videoPositions
         delegate?.didChangeIndicatorPosition(rangeSlider: self,
-                                             positions: videoPositions,
+                                             positions: currentProgresses,
                                              rate: position)
     }
 }
