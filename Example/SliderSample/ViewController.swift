@@ -14,16 +14,13 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var videoRangeSlider: HKVideoRangeSlider!
 
-    @IBOutlet weak var track0MinLabel: UILabel!
-    @IBOutlet weak var track1MinLabel: UILabel!
-    @IBOutlet weak var track2MinLabel: UILabel!
-    @IBOutlet weak var track0MaxLabel: UILabel!
-    @IBOutlet weak var track1MaxLabel: UILabel!
-    @IBOutlet weak var track2MaxLabel: UILabel!
+    @IBOutlet weak var tableView: UITableView!
 
     @IBOutlet weak var positionIndicatorSlider: UISlider!
 
     let gradientLayer = CAGradientLayer()
+
+    private var videoTracks = [HKAssetInputData]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,6 +32,9 @@ class ViewController: UIViewController {
 
         view.backgroundColor = .clear
         setGradientBackground(colorTop: .orange, colorBottom: .yellow)
+
+        let nib = UINib(nibName: "TrackCell", bundle: nil)
+        tableView.register(nib, forCellReuseIdentifier: "TrackCell")
     }
 
     override func viewDidLayoutSubviews() {
@@ -59,24 +59,44 @@ class ViewController: UIViewController {
     @IBAction func positionIndicatorSliderValueChanged(_ sender: UISlider) {
         videoRangeSlider.setProgress(rate: Double(sender.value),
                                      animated: false)
+
+        // Since HKVideoRangeSlider doesn't call didChangeIndicatorPosition(rangeSlider:positions:rate:)
+        // delegate method if you set the progress manually,
+        // you should update manually the labels.
+        for (i, position) in videoRangeSlider.currentProgresses.enumerated() {
+            updatePositionCellLabel(at: i, with: position)
+        }
     }
 
-    @IBAction func setAssets(_ sender: Any) {
+    @IBAction func addAsset(_ sender: Any) {
         // In actual situation, you can use different videos for each track.
-        let url1 = URL(fileURLWithPath: Bundle.main.path(forResource: "SampleVideo", ofType:"mp4")!)
-        let url2 = URL(fileURLWithPath: Bundle.main.path(forResource: "SampleVideo", ofType:"mp4")!)
-        let url3 = URL(fileURLWithPath: Bundle.main.path(forResource: "SampleVideo", ofType:"mp4")!)
+        let url = URL(fileURLWithPath: Bundle.main.path(forResource: "SampleVideo", ofType:"mp4")!)
 
-        let assets = [
-            HKAssetInputData(asset: AVURLAsset(url: url1)),
-            HKAssetInputData(asset: AVURLAsset(url: url2)),
-            HKAssetInputData(asset: AVURLAsset(url: url3), startTime: 20, duration: 18) // can set initial range.
-        ]
-        videoRangeSlider.setAssetData(assets)
+        // If you want to set asset with an initial range,
+        // use `HKAssetInputData(asset:startTime:duration:)` method instead.
+        videoTracks.append(HKAssetInputData(asset: AVURLAsset(url: url)))
+
+        // Rebuild tracks, and the table.
+        videoRangeSlider.setAssetData(videoTracks)
+        tableView.reloadData()
     }
 
     @IBAction func removeAssets(_ sender: Any) {
+        videoTracks.removeAll()
         videoRangeSlider.setAssetData([])
+        tableView.reloadData()
+    }
+
+    private func updateRangeCellLabel(at i: Int, with range: HKVideoRange) {
+        if let cell = tableView.cellForRow(at: IndexPath(row: i, section: 0)) as? TrackCell {
+            cell.setRange(range)
+        }
+    }
+
+    private func updatePositionCellLabel(at i: Int, with position: HKVideoPosition) {
+        if let cell = tableView.cellForRow(at: IndexPath(row: i, section: 0)) as? TrackCell {
+            cell.setProgress(position)
+        }
     }
 }
 
@@ -85,40 +105,38 @@ class ViewController: UIViewController {
 extension ViewController: HKVideoRangeSliderDelegate {
     func didChangeRangeData(rangeSlider: HKVideoRangeSlider, ranges: [HKVideoRange]) {
 
-        guard ranges.count == 3 else {
-            return
+        for (i, range) in ranges.enumerated() {
+            updateRangeCellLabel(at: i, with: range)
         }
-
-        track0MinLabel.text = formattedString(ranges[0].start)
-        track0MaxLabel.text = formattedString(ranges[0].start + ranges[0].duration)
-        track1MinLabel.text = formattedString(ranges[1].start)
-        track1MaxLabel.text = formattedString(ranges[1].start + ranges[1].duration)
-        track2MinLabel.text = formattedString(ranges[2].start)
-        track2MaxLabel.text = formattedString(ranges[2].start + ranges[2].duration)
     }
 
     func didChangeIndicatorPosition(rangeSlider: HKVideoRangeSlider,
                                     positions: [HKVideoPosition],
                                     rate: Double) {
 
-        guard positions.count == 3 else {
-            return
+        for (i, position) in positions.enumerated() {
+            updatePositionCellLabel(at: i, with: position)
         }
-
-        track0MinLabel.text = formattedString(positions[0].time)
-        track0MaxLabel.text = "---"
-        track1MinLabel.text = formattedString(positions[1].time)
-        track1MaxLabel.text = "---"
-        track2MinLabel.text = formattedString(positions[2].time)
-        track2MaxLabel.text = "---"
-
         positionIndicatorSlider.value = Float(rate)
     }
+}
 
-    private func formattedString(_ seconds: Double) -> String {
-        let min = Int(seconds / 60)
-        let sec = Int(seconds.truncatingRemainder(dividingBy: 60))
-        let dsec = Int((seconds * 10).truncatingRemainder(dividingBy: 10))
-        return String(format: "%02d:%02d.%d", min, sec, dsec)
+extension ViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return videoTracks.count
     }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "TrackCell", for: indexPath) as? TrackCell else { fatalError() }
+        cell.backgroundColor = .clear
+
+        cell.setTrackNo(indexPath.row)
+        cell.setRange(videoRangeSlider.videoRanges[indexPath.row])
+        cell.setProgress(videoRangeSlider.currentProgresses[indexPath.row])
+
+        return cell
+    }
+}
+
+extension ViewController: UITableViewDelegate {
 }

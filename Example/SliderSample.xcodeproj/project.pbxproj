@@ -16,6 +16,8 @@
 		360B8E602472DD6900E7F9F1 /* HKVideoRangeSlider.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 360B8E5F2472DD6900E7F9F1 /* HKVideoRangeSlider.framework */; };
 		360B8E612472DD6900E7F9F1 /* HKVideoRangeSlider.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 360B8E5F2472DD6900E7F9F1 /* HKVideoRangeSlider.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		360B8E642472E93F00E7F9F1 /* SampleVideo.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 360B8E632472E93F00E7F9F1 /* SampleVideo.mp4 */; };
+		36CCD6B5247E7CBF00A9A5D6 /* TrackCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36CCD6B3247E7CBF00A9A5D6 /* TrackCell.swift */; };
+		36CCD6B6247E7CBF00A9A5D6 /* TrackCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 36CCD6B4247E7CBF00A9A5D6 /* TrackCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -43,6 +45,8 @@
 		360B8E542472D9FB00E7F9F1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		360B8E5F2472DD6900E7F9F1 /* HKVideoRangeSlider.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = HKVideoRangeSlider.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		360B8E632472E93F00E7F9F1 /* SampleVideo.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = SampleVideo.mp4; sourceTree = "<group>"; };
+		36CCD6B3247E7CBF00A9A5D6 /* TrackCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackCell.swift; sourceTree = "<group>"; };
+		36CCD6B4247E7CBF00A9A5D6 /* TrackCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TrackCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +85,8 @@
 				360B8E482472D9F800E7F9F1 /* SceneDelegate.swift */,
 				360B8E4A2472D9F800E7F9F1 /* ViewController.swift */,
 				360B8E4C2472D9F800E7F9F1 /* Main.storyboard */,
+				36CCD6B3247E7CBF00A9A5D6 /* TrackCell.swift */,
+				36CCD6B4247E7CBF00A9A5D6 /* TrackCell.xib */,
 				360B8E4F2472D9FB00E7F9F1 /* Assets.xcassets */,
 				360B8E632472E93F00E7F9F1 /* SampleVideo.mp4 */,
 				360B8E512472D9FB00E7F9F1 /* LaunchScreen.storyboard */,
@@ -157,6 +163,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				360B8E532472D9FB00E7F9F1 /* LaunchScreen.storyboard in Resources */,
+				36CCD6B6247E7CBF00A9A5D6 /* TrackCell.xib in Resources */,
 				360B8E502472D9FB00E7F9F1 /* Assets.xcassets in Resources */,
 				360B8E4E2472D9F800E7F9F1 /* Main.storyboard in Resources */,
 				360B8E642472E93F00E7F9F1 /* SampleVideo.mp4 in Resources */,
@@ -173,6 +180,7 @@
 				360B8E4B2472D9F800E7F9F1 /* ViewController.swift in Sources */,
 				360B8E472472D9F800E7F9F1 /* AppDelegate.swift in Sources */,
 				360B8E492472D9F800E7F9F1 /* SceneDelegate.swift in Sources */,
+				36CCD6B5247E7CBF00A9A5D6 /* TrackCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
