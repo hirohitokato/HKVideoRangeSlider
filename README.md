@@ -216,10 +216,13 @@ The default values are 3600 and 2 (seconds).
 
 ##### ▶ Change the color of start/end indicator & the scroll knob color
 
-Use `tintColor` property.
+![](assets/tintColor1.png)　![](assets/tintColor2.png)　![](assets/dimpleColor.png)
+
+Use `tintColor` and `startEndSliderDimpleColor` property.
 
 ```swift
 videoRangeSlider.tintColor = .systemYellow
+videoRangeSlider.startEndSliderDimpleColor = .darkGray
 ```
 
 ##### ▶ Use an original image as slider.
