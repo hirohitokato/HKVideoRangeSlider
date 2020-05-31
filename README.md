@@ -18,6 +18,8 @@
 ---
 iOS video range slider for trimming it, supporting multiple tracks.
 
+![](assets/demo.gif)
+
 ## 💘 Features
 
 - [x] Scrollable thumbnails
@@ -238,6 +240,10 @@ Furthermore, you can show / hide borders laid between start / end slider by usin
 // Hide borders between start / end slider
 videoRangeSlider.isStartEndBorderHidden = true
 ```
+
+## 💪 Contributing
+
+Bug reports and pull requests are welcome on GitHub at https://github.com/hirohitokato/HKVideoRangeSlider.
 
 ## 🖋 Author
 
