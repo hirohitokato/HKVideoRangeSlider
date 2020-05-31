@@ -18,7 +18,7 @@
 ---
 iOS video range slider for trimming it, supporting multiple tracks.
 
-![](assets/demo.gif)
+![](https://raw.githubusercontent.com/hirohitokato/HKVideoRangeSlider/master/assets/demo.gif)
 
 ## 💘 Features
 
@@ -216,7 +216,7 @@ The default values are 3600 and 2 (seconds).
 
 ##### ▶ Change the color of start/end indicator & the scroll knob color
 
-![](assets/tintColor1.png)　![](assets/tintColor2.png)　![](assets/dimpleColor.png)
+![](https://raw.githubusercontent.com/hirohitokato/HKVideoRangeSlider/master/assets/tintColor1.png)　![](https://raw.githubusercontent.com/hirohitokato/HKVideoRangeSlider/master/assets/tintColor2.png)　![](https://raw.githubusercontent.com/hirohitokato/HKVideoRangeSlider/master/assets/dimpleColor.png)
 
 Use `tintColor` and `startEndSliderDimpleColor` property.
 
